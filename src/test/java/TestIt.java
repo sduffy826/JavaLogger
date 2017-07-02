@@ -2,7 +2,7 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import com.corti.LoggerUtils;
+import com.corti.javalogger.LoggerUtils;
 
 public class TestIt {
 

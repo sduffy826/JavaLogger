@@ -1,4 +1,4 @@
-package com.corti;
+package com.corti.javalogger;
 
 import java.text.*;
 import java.util.*;

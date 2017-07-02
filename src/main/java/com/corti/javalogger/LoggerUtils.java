@@ -1,4 +1,4 @@
-package com.corti;
+package com.corti.javalogger;
 
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
