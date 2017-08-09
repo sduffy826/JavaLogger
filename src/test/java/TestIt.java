@@ -1,4 +1,5 @@
 import java.util.logging.ConsoleHandler;
+
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -8,20 +9,18 @@ import com.corti.javalogger.LoggerUtils;
 
 public class TestIt {
 
-  /** Little stub to show how to user logger; in this we have two objects but they
-   * are both writing to the same log file (and it works :))
-   * @param args
-   */
-  public static void main(String[] args) {
-    // get Objects
-    LoggerUtils aLog = new LoggerUtils();
-    Logger log1 = aLog.getLogger("MyTestLogger", "foofy.bar");
+  // Typically you'll use static objects for logging
+  public static final LoggerUtils logUtils = new LoggerUtils();
+  public static final java.util.logging.Logger log = logUtils.getLogger("MyTestLogger", "TestLogger.log");
+  
+  // Mainline
+  public static void main(String[] args) {   
     
     // Write log message (an info one)
-    log1.info("This is the first one");
+    MyLogger.log.info("This is the first one");
     
     // If want to see the handlers defined
-    Handler[] handlers = log1.getHandlers();
+    Handler[] handlers = MyLogger.log.getHandlers();
     for (Handler handle: handlers) {
       System.out.println("handler getName: " + handle.getClass().getName() + " level: " + handle.getLevel().getName());
     }    
@@ -34,11 +33,12 @@ public class TestIt {
     //          to foofy.bar.n
     //        If you use the same logger name but different output file then it's 
     //          like the logger has two output filenames; from that point forward
-    //          messages are written to both files.
-    Logger log2 = (new LoggerUtils()).getLogger("MyTestLogger", "foofy1.bar");
+    //          messages are written to both files.  This is what I do below (the
+    //          logname is the same one as in MyLogger class)
+    Logger log2 = (new LoggerUtils()).getLogger("MyTestLogger", "AnotherLoggerFile.log");
     log2.info("This is from second logger object");
     
-    log1.info("First logger object");
+    MyLogger.log.info("First logger object");
 
     // Show logging using record
     try {
@@ -49,24 +49,23 @@ public class TestIt {
     }
     
     // Use different log levels
-    log1.severe("This is a severe message");
-    log1.fine("This is a fine message before level changed");  // won't show
+    MyLogger.log.severe("This is a severe message");
+    MyLogger.log.fine("This is a fine message before level changed");  // won't show
   
     // Change level, this will also set level of console handler (it defaults to info)
-    aLog.setLogLevel(log1,  Level.FINE);
+    MyLogger.logUtils.setLogLevel(MyLogger.log,  Level.FINE);
     
     // Just to show some info on the handlers
-    handlers = log1.getHandlers();
+    handlers = MyLogger.log.getHandlers();
     System.out.println("Number of handlers: " + handlers.length);
     for (Handler handle: handlers) {
       System.out.println("handler getName: " + handle.getClass().getName() + " level: " + handle.getLevel().getName());
-      System.out.println("handler getSimpleName: " + handle.getClass().getSimpleName()); 
-      System.out.println("handler getCanonicalName: " + handle.getClass().getCanonicalName());
-      System.out.println("handler getTypeName: " + handle.getClass().getTypeName());      
+      System.out.println("        getSimpleName: " + handle.getClass().getSimpleName()); 
+      System.out.println("        getCanonicalName: " + handle.getClass().getCanonicalName());
+      System.out.println("        getTypeName: " + handle.getClass().getTypeName());      
     }   
     
     // You should see this once the level has been reset
-    log1.fine("This is fine after setting console handler");   
+    MyLogger.log.fine("This is fine after setting console handler");   
   }
-
 }
