@@ -1,8 +1,10 @@
 package com.corti.javalogger;
 
+import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LoggerUtils {
@@ -42,4 +44,29 @@ public class LoggerUtils {
     return getLoggerHelper(_loggerName, _outputFile, CSVLineFormatter.class);
   }
   
+  // Change the log level for the arg passed in
+  public synchronized void setLogLevel(Logger _logger, Level _newLevel) {
+    // Set level
+    _logger.setLevel(_newLevel);
+    
+    // Check if there's a console handler already defined if so we'll set it's level, we don't bother
+    // setting other handlers here (they have ALL setting, but if find down the road that this changes
+    // just set level here)
+    boolean didSetConsole = false;
+    Handler[] handlers = _logger.getHandlers();
+    for (Handler handle: handlers) {
+      if ( handle.getClass().getSimpleName().equalsIgnoreCase("ConsoleHandler") ) {
+        handle.setLevel(_newLevel);
+        didSetConsole = true;        
+      }
+    }
+    
+    // If we didn't set the console handler above then define it here
+    if (!didSetConsole) {
+      // Override the console handler
+      Handler sysout = new ConsoleHandler();
+      sysout.setLevel(_newLevel);
+      _logger.addHandler(sysout);
+    }
+  }    
 }

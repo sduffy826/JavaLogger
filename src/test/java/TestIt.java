@@ -1,3 +1,5 @@
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
@@ -17,6 +19,12 @@ public class TestIt {
     
     // Write log message (an info one)
     log1.info("This is the first one");
+    
+    // If want to see the handlers defined
+    Handler[] handlers = log1.getHandlers();
+    for (Handler handle: handlers) {
+      System.out.println("handler getName: " + handle.getClass().getName() + " level: " + handle.getLevel().getName());
+    }    
 
     // Show another way to instantiate where we don't keep ref to LoggerUtils obj
     // this is using same logger name and output file.
@@ -28,17 +36,37 @@ public class TestIt {
     //          like the logger has two output filenames; from that point forward
     //          messages are written to both files.
     Logger log2 = (new LoggerUtils()).getLogger("MyTestLogger", "foofy1.bar");
-    log2.info("This is from second object");
+    log2.info("This is from second logger object");
     
-    log1.info("First object");
+    log1.info("First logger object");
 
+    // Show logging using record
     try {
-      LogRecord record = new LogRecord(Level.SEVERE,
-          "This is a severe message");
+      LogRecord record = new LogRecord(Level.SEVERE,"This is a severe LogRecord");
       log2.log(record);
     } catch (Exception e) {
       e.printStackTrace();
     }
+    
+    // Use different log levels
+    log1.severe("This is a severe message");
+    log1.fine("This is a fine message before level changed");  // won't show
+  
+    // Change level, this will also set level of console handler (it defaults to info)
+    aLog.setLogLevel(log1,  Level.FINE);
+    
+    // Just to show some info on the handlers
+    handlers = log1.getHandlers();
+    System.out.println("Number of handlers: " + handlers.length);
+    for (Handler handle: handlers) {
+      System.out.println("handler getName: " + handle.getClass().getName() + " level: " + handle.getLevel().getName());
+      System.out.println("handler getSimpleName: " + handle.getClass().getSimpleName()); 
+      System.out.println("handler getCanonicalName: " + handle.getClass().getCanonicalName());
+      System.out.println("handler getTypeName: " + handle.getClass().getTypeName());      
+    }   
+    
+    // You should see this once the level has been reset
+    log1.fine("This is fine after setting console handler");   
   }
 
 }
