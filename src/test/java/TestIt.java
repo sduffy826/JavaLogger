@@ -11,6 +11,7 @@ public class TestIt {
 
   // Typically you'll use static objects for logging
   public static final LoggerUtils logUtils = new LoggerUtils();
+  
   public static final java.util.logging.Logger log = logUtils.getLogger("MyTestLogger", "TestLogger.log");
   
   // Mainline
@@ -62,7 +63,8 @@ public class TestIt {
       System.out.println("handler getName: " + handle.getClass().getName() + " level: " + handle.getLevel().getName());
       System.out.println("        getSimpleName: " + handle.getClass().getSimpleName()); 
       System.out.println("        getCanonicalName: " + handle.getClass().getCanonicalName());
-      System.out.println("        getTypeName: " + handle.getClass().getTypeName());      
+      // System.out.println("        getTypeName: " + handle.getClass().getTypeName());  
+     
     }   
     
     // You should see this once the level has been reset

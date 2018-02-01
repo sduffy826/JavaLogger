@@ -15,7 +15,7 @@ public class LoggerUtils {
 
       // The args to handler are, filename, size limit of file, number or files
       // to create, append flag
-      Handler handler = new FileHandler(_outputFile, 100000, 5, true);      
+      Handler handler = new FileHandler(_outputFile, 100000, 5, true);     
       Formatter formatter = (Formatter)formatterClass.newInstance();     
       
       // If wanted to see a log warning can do
@@ -27,6 +27,9 @@ public class LoggerUtils {
       handler.setFormatter(formatter);  // Passed in
       logger.addHandler(handler);
 
+      System.out.println("logging.properties:" + getClass().getClassLoader().getResource("logging.properties"));
+      
+      
       // Caller can now do logger.info("string") logger.warning... (see doc)
     } catch (Exception e) {
       e.printStackTrace();
