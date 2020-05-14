@@ -12,13 +12,17 @@ public class TestIt {
   // Typically you'll use static objects for logging
   public static final LoggerUtils logUtils = new LoggerUtils();
   
+  // Args are logger name and the name of the log file; the log file will be suffixed with a
+  // number (i.e. TestLogger.log.0)
   public static final java.util.logging.Logger log = logUtils.getLogger("MyTestLogger", "TestLogger.log");
   
   // Mainline
   public static void main(String[] args) {   
     
-    // Write log message (an info one)
-    MyLogger.log.info("This is the first one");
+    // Write log message (an info one), in this I'm using static reference in the MyLogger
+    // class... 
+    MyLogger.log.info("This is the first info message, from MyLogger.log...");
+    log.info("This is from 'log' object");
     
     // If want to see the handlers defined
     Handler[] handlers = MyLogger.log.getHandlers();
@@ -68,6 +72,15 @@ public class TestIt {
     }   
     
     // You should see this once the level has been reset
-    MyLogger.log.fine("This is fine after setting console handler");   
+    MyLogger.log.fine("This is fine after setting console handler");
+    
+    // Shows how to open another file that will be in CSV format , the logger name is the same
+    // so messages will be written to multiple files and in multiple formats (SingleLineFormatter 
+    // and CSVLineFormatter).
+    Logger log3 = (new LoggerUtils()).getLogger("MyTestLogger", "CSVFileLog.csv",true);
+    log3.info("This is the csv message");
+    log.info("This is after csv logger was created");
+    
+    
   }
 }
