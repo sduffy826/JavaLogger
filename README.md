@@ -3,7 +3,7 @@ JavaLogger
 This project has some utility methods to make it easier to use the java logger.  The main
 thing you're probably interested in is:
 ```
-  LoggerUtils.getLogger(loggerName, loggerFileName, &lt;booleanForCSVFormatter&gt;) 
+  LoggerUtils.getLogger(loggerName, loggerFileName, <booleanForCSVFormatter>) 
   setLogLevel(Logger, LogLevel)
 ```
 
@@ -17,4 +17,4 @@ Easiest way to see usage is to look at the 'TestIt.java' code; it shows:
 - Writing log messages, as String or using LogRecord
 - Showing handlers
 - Setting log level
-- Getting a log file that's in 'csv' format (to multiple output files) 
+- Getting a log file that's in 'csv' format (and writing to multiple output files) 
